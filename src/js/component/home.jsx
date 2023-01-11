@@ -1,25 +1,54 @@
-import React from "react";
+import React, {useState} from "react";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+
 
 //create your first component
 const Home = () => {
+
+	
+	const [tarea,setTarea] = useState("");
+	const [list,setList] = useState([]);
+
+
+	/*const listItems = list.map((item) =>
+	<li key={item.toString()}>
+	{item}
+  </li>
+	);*/
+
+	const DeleteItems = (indexItem) => {
+		setList((prevState) =>
+		  prevState.filter((listItems, index) => index !== indexItem)
+		);
+	  };
+
+	function enviarDatos(e) {
+		e.preventDefault()
+		setList([...list, tarea]);
+		setTarea("")
+	}
+	console.log(list);
+
 	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+		<>
+		<div className="card container d-flex mt-3">
+  			<div className="card-body">
+  				<input type="text" className="input m-1 w-75" value={tarea} id="exampleInput" aria-describedby="inputHelp" onChange={(e)=>{setTarea(e.target.value)}} placeholder="No hay tareas, añadir tareas"/>
+				<button type="submit" className="btn btn-primary btn-sm" onChange={(e)=>{setList(e.target.value)}} onClick={enviarDatos}>Agregar</button>
+  			</div>
+			<div className="to-do-list d-flex">
+			  <ul>{list.map((item, index) => (
+        <li key={index}>
+          {item}
+          <button className="btn" onClick={() => DeleteItems(index)}>
+            <i className="fas fa-trash-alt" />
+          </button>
+        </li>
+      ))}</ul>
+			</div>
 		</div>
+		
+		</>
 	);
 };
 
